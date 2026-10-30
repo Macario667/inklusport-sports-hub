@@ -27,12 +27,12 @@ El proyecto utiliza PostgreSQL para los datos relacionales y MongoDB para inform
 
 | Guía | Tema | Estado |
 |---|---|---|
-| 01 | Creating Your First Application | En desarrollo |
-| 02 | Configuring Your Application | En desarrollo |
-| 03 | RESTEasy Classic | Pendiente |
-| 04 | Configuration Reference Guide | Pendiente |
-| 05 | Writing REST Services | Pendiente |
-| 06 | Configuring Logging | Pendiente |
+| 01 | Creating Your First Application | Listo |
+| 02 | Configuring Your Application | Listo |
+| 03 | RESTEasy Classic | Listo |
+| 04 | Configuration Reference Guide | Listo |
+| 05 | Writing REST Services | Listo |
+| 06 | Configuring Logging | Listo |
 | 07 | JSON | Pendiente |
 | 08 | Writing JSON REST Services | Pendiente |
 | 09 | Validation | Pendiente |
