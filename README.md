@@ -33,8 +33,8 @@ El proyecto utiliza PostgreSQL para los datos relacionales y MongoDB para inform
 | 04 | Configuration Reference Guide | Listo |
 | 05 | Writing REST Services | Listo |
 | 06 | Configuring Logging | Listo |
-| 07 | JSON | Pendiente |
-| 08 | Writing JSON REST Services | Pendiente |
+| 07 | JSON | Listo |
+| 08 | Writing JSON REST Services | Listo |
 | 09 | Validation | Pendiente |
 | 10 | OpenAPI and Swagger UI | Pendiente |
 | 11 | REST Client | Pendiente |
