@@ -35,8 +35,8 @@ El proyecto utiliza PostgreSQL para los datos relacionales y MongoDB para inform
 | 06 | Configuring Logging | Listo |
 | 07 | JSON | Listo |
 | 08 | Writing JSON REST Services | Listo |
-| 09 | Validation | Pendiente |
-| 10 | OpenAPI and Swagger UI | Pendiente |
+| 09 | Validation | Listo |
+| 10 | OpenAPI and Swagger UI | Listo |
 | 11 | REST Client | Pendiente |
 | 12 | SmallRye Fault Tolerance | Pendiente |
 | 13 | Datasources | Pendiente |
