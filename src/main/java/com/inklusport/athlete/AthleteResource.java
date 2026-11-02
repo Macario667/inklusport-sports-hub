@@ -42,7 +42,6 @@ public class AthleteResource {
         description = "Obtiene los datos completos del deportista utilizando su identificador"
     )
     public Response findById(@PathParam("id") Long id) {
-
         return athleteService.findById(id)
                 .map(Response::ok)
                 .map(Response.ResponseBuilder::build)
@@ -55,7 +54,6 @@ public class AthleteResource {
         description = "Registra los datos de un nuevo deportista"
     )
     public Response create(@Valid AthleteRequest request) {
-
         AthleteResponse created = athleteService.create(request);
 
         return Response.status(Response.Status.CREATED)
@@ -67,7 +65,7 @@ public class AthleteResource {
     @Path("/{id}")
     @Operation(
         summary = "Actualizar deportista",
-        description = "Actualiza/Edita los datos de un deportista, buscado por su identificador"
+        description = "Actualiza los datos de un deportista utilizando su identificador"
     )
     public Response update(
             @PathParam("id") Long id,
@@ -83,10 +81,9 @@ public class AthleteResource {
     @Path("/{id}")
     @Operation(
         summary = "Eliminar deportista",
-        description = "Elimina los datos de un deportista ya registrado, buscado por su identificador"
+        description = "Elimina un deportista utilizando su identificador"
     )
     public Response delete(@PathParam("id") Long id) {
-
         if (!athleteService.delete(id)) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }

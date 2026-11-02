@@ -1,44 +1,42 @@
 package com.inklusport.athlete;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.jboss.logging.Logger;
 
 import com.inklusport.athlete.dto.AthleteRequest;
 import com.inklusport.athlete.dto.AthleteResponse;
+import com.inklusport.athlete.entity.Athlete;
+import com.inklusport.athlete.repository.AthleteRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
-/**
- * @ApplicationScoped: Quarkus administra una instancia del servicio 
- * para la aplicación.
- */
-@ApplicationScoped 
+@ApplicationScoped
 public class AthleteService {
-    
-    private final List<AthleteResponse> athletes = new ArrayList<>();
-
-    /**
-     * AtomicLong: genera identificadores consecutivos.
-     */
-    private final AtomicLong sequence = new AtomicLong(0);
 
     private static final Logger LOG = Logger.getLogger(AthleteService.class);
 
+    @Inject
+    AthleteRepository athleteRepository;
+
     public List<AthleteResponse> findAll() {
         LOG.debug("Consultando todos los deportistas");
-        return athletes;
+
+        return athleteRepository.listAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 
     public Optional<AthleteResponse> findById(Long id) {
         LOG.debugf("Consultando deportista. ID: %d", id);
 
-        Optional<AthleteResponse> athlete = athletes.stream()
-                .filter(item -> item.id.equals(id))
-                .findFirst();
+        Optional<AthleteResponse> athlete =
+                athleteRepository.findByIdOptional(id)
+                        .map(this::toResponse);
 
         if (athlete.isEmpty()) {
             LOG.warnf("No se encontró el deportista. ID: %d", id);
@@ -47,54 +45,42 @@ public class AthleteService {
         return athlete;
     }
 
+    @Transactional
     public AthleteResponse create(AthleteRequest request) {
-        Long id = sequence.incrementAndGet();
+        Athlete athlete = new Athlete();
 
-        AthleteResponse athlete = new AthleteResponse(
-                id,
-                request.firstName,
-                request.lastName,
-                request.email,
-                request.discipline
-        );
+        athlete.firstName = request.firstName;
+        athlete.lastName = request.lastName;
+        athlete.email = request.email;
+        athlete.discipline = request.discipline;
 
-        athletes.add(athlete);
+        athleteRepository.persist(athlete);
 
-        LOG.infof("Deportista creado. ID: %d", id);
+        LOG.infof("Deportista creado. ID: %d", athlete.id);
 
-        return athlete;
+        return toResponse(athlete);
     }
 
+    @Transactional
     public Optional<AthleteResponse> update(
-            Long id,
-            AthleteRequest request) {
+            Long id, AthleteRequest request) {
 
-        Optional<AthleteResponse> existing = findById(id);
+        return athleteRepository.findByIdOptional(id)
+                .map(athlete -> {
+                    athlete.firstName = request.firstName;
+                    athlete.lastName = request.lastName;
+                    athlete.email = request.email;
+                    athlete.discipline = request.discipline;
 
-        if (existing.isEmpty()) {
-            return Optional.empty();
-        }
+                    LOG.infof("Deportista actualizado. ID: %d", id);
 
-        AthleteResponse updated = new AthleteResponse(
-                id,
-                request.firstName,
-                request.lastName,
-                request.email,
-                request.discipline
-        );
-
-        athletes.remove(existing.get());
-        athletes.add(updated);
-
-        LOG.infof("Deportista actualizado. ID: %d", id);
-
-        return Optional.of(updated);
+                    return toResponse(athlete);
+                });
     }
 
+    @Transactional
     public boolean delete(Long id) {
-        boolean removed = athletes.removeIf(
-                athlete -> athlete.id.equals(id)
-        );
+        boolean removed = athleteRepository.deleteById(id);
 
         if (removed) {
             LOG.infof("Deportista eliminado. ID: %d", id);
@@ -102,6 +88,16 @@ public class AthleteService {
             LOG.warnf("No se pudo eliminar. ID inexistente: %d", id);
         }
 
-        return removed;    
+        return removed;
+    }
+
+    private AthleteResponse toResponse(Athlete athlete) {
+        return new AthleteResponse(
+                athlete.id,
+                athlete.firstName,
+                athlete.lastName,
+                athlete.email,
+                athlete.discipline
+        );
     }
 }

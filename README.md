@@ -39,8 +39,8 @@ El proyecto utiliza PostgreSQL para los datos relacionales y MongoDB para inform
 | 10 | OpenAPI and Swagger UI | Listo |
 | 11 | REST Client | Listo |
 | 12 | SmallRye Fault Tolerance | Listo |
-| 13 | Datasources | Pendiente |
-| 14 | Hibernate ORM with Panache | Pendiente |
+| 13 | Datasources | Listo |
+| 14 | Hibernate ORM with Panache | Listo |
 | 15 | MongoDB Client | Pendiente |
 | 16 | MongoDB with Panache | Pendiente |
 | 17 | Scheduling Periodic Tasks | Pendiente |
